@@ -3,8 +3,12 @@ import type { DatabaseProvider, Document, CollectionProvider, FilterQuery, Searc
 class MockCollectionProvider implements CollectionProvider {
   constructor(public path: string) {}
 
-  async create(collection: string): Promise<void> {}
+  async create(): Promise<void> {}
 
+  /**
+   * Get documents from a collection
+   * @param collection Collection name (unused in mock implementation)
+   */
   async get(collection: string): Promise<Document[]> {
     return [
       {
@@ -36,21 +40,21 @@ class MockCollectionProvider implements CollectionProvider {
     ];
   }
 
-  async add(collection: string, document: Document): Promise<void> {}
-  async update(collection: string, id: string, document: Document): Promise<void> {}
-  async delete(collection: string, id: string): Promise<void> {}
+  async add(): Promise<void> {}
+  async update(): Promise<void> {}
+  async delete(): Promise<void> {}
 
-  async find(filter: FilterQuery<Document>, options?: SearchOptions): Promise<Document[]> {
+  async find(_filter: FilterQuery<Document>, options?: SearchOptions): Promise<Document[]> {
     return this.get(options?.collection || '');
   }
 
-  async search(query: string, options?: SearchOptions): Promise<SearchResult[]> {
+  async search(_query: string, options?: SearchOptions): Promise<SearchResult[]> {
     const docs = await this.get(options?.collection || '');
     return docs.map(doc => ({ document: doc, score: 1.0 }));
   }
 
-  async vectorSearch(options: VectorSearchOptions & SearchOptions): Promise<SearchResult[]> {
-    const docs = await this.get(options?.collection || '');
+  async vectorSearch(_options: VectorSearchOptions & SearchOptions): Promise<SearchResult[]> {
+    const docs = await this.get(_options?.collection || '');
     return docs.map(doc => ({ document: doc, score: 1.0 }));
   }
 }

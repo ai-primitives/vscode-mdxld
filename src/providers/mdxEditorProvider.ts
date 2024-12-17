@@ -20,6 +20,12 @@ export class MDXEditorProvider implements vscode.CustomTextEditorProvider {
         );
     }
 
+    /**
+     * Resolves a custom text editor for MDX files
+     * @param document The document to resolve
+     * @param webviewPanel The webview panel to use
+     * @param _token Cancellation token (unused but required by VS Code API)
+     */
     async resolveCustomTextEditor(
         document: vscode.TextDocument,
         webviewPanel: vscode.WebviewPanel,
@@ -46,7 +52,7 @@ export class MDXEditorProvider implements vscode.CustomTextEditorProvider {
 
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview, monacoScriptUri);
 
-        const changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
+        const _changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
             if (e.document.uri.toString() === document.uri.toString()) {
                 this.updateWebview(webviewPanel.webview, document);
                 this.validateDocument(document);

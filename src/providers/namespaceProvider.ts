@@ -17,7 +17,11 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
     private searchQuery: string = '';
     private providers: DatabaseProvider<Document>[] = [];
 
-    constructor(context: vscode.ExtensionContext) {
+    /**
+     * Creates a new NamespaceProvider instance
+     * @param _context Extension context (unused but required by VS Code API)
+     */
+    constructor(private readonly _context: vscode.ExtensionContext) {
         this.initializeProviders();
     }
 

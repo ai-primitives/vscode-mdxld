@@ -5,11 +5,17 @@ export interface SchemaValidationResult {
     errors?: string[];
 }
 
+/**
+ * Validates MDX content against a schema
+ * @param type Schema type URI
+ * @param mdxContent MDX content to validate (unused in current implementation)
+ */
 export async function validateAgainstSchema(
     type: string,
-    content: MDXLD
+    mdxContent: MDXLD
 ): Promise<SchemaValidationResult> {
     try {
+        // Basic type validation
         if (type.startsWith('https://schema.org/')) {
             // TODO: Implement schema.org validation
             return { isValid: true };
