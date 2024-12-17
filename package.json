@@ -13,7 +13,9 @@
   ],
   "activationEvents": [
     "onLanguage:mdx",
-    "onView:mdxld-namespaces"
+    "onView:mdxldNamespaces",
+    "onCommand:mdxld.showSearch",
+    "onCommand:mdxld.refreshNamespaces"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -25,13 +27,52 @@
         ]
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "mdxld-explorer",
+          "title": "MDX-LD Explorer",
+          "icon": "$(symbol-namespace)"
+        }
+      ]
+    },
+    "views": {
+      "mdxld-explorer": [
+        {
+          "id": "mdxldNamespaces",
+          "name": "Namespaces & Collections",
+          "contextualTitle": "MDX-LD Namespaces"
+        }
+      ]
+    },
     "commands": [
+      {
+        "command": "mdxld.showSearch",
+        "title": "Search Namespaces",
+        "category": "MDX-LD",
+        "icon": "$(search)"
+      },
       {
         "command": "mdxld.refreshNamespaces",
         "title": "Refresh Namespaces",
-        "category": "MDX-LD"
+        "category": "MDX-LD",
+        "icon": "$(refresh)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "mdxld.showSearch",
+          "when": "view == mdxldNamespaces",
+          "group": "navigation"
+        },
+        {
+          "command": "mdxld.refreshNamespaces",
+          "when": "view == mdxldNamespaces",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run build",
@@ -43,14 +84,18 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{md,mdx}\""
   },
   "dependencies": {
+    "@mdxdb/fs": "workspace:*",
+    "@mdxdb/fetch": "workspace:*",
+    "@mdxdb/clickhouse": "workspace:*",
+    "@mdxdb/types": "workspace:*",
     "json5": "^2.2.3",
-    "mdxai": "^0.1.2",
-    "mdxld": "^0.1.0"
+    "mdxai": "latest",
+    "mdxld": "latest"
   },
   "devDependencies": {
     "@types/json5": "^2.2.0",
     "@types/node": "^22.10.2",
-    "@types/vscode": "^1.96.0",
+    "@types/vscode": "^1.74.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
     "@vscode/test-electron": "^2.3.9",
