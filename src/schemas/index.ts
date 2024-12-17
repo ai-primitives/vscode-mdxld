@@ -12,6 +12,7 @@ export interface SchemaValidationResult {
  */
 export async function validateAgainstSchema(
     type: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _mdxContent: MDXLD
 ): Promise<SchemaValidationResult> {
     try {

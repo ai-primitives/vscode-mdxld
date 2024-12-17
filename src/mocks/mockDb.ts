@@ -9,7 +9,10 @@ class MockCollectionProvider implements CollectionProvider {
    * Get documents from a collection
    * @param _collection Collection name (unused in mock implementation)
    */
-  async get(_collection: string): Promise<Document[]> {
+  async get(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _collection: string
+  ): Promise<Document[]> {
     return [
       {
         $type: 'https://schema.org/Article',
