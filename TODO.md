@@ -10,6 +10,7 @@
 - [x] Configure package.json with proper metadata
 
 ## Implementation
+
 - [x] Basic package structure
   - [x] TypeScript configuration
   - [x] Testing setup with Vitest
