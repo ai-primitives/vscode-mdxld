@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import type { DatabaseProvider, Document } from '../mocks/types';
 import { MockDatabaseProvider } from '../mocks/mockDb';
+import { filterItems, SearchableItem } from '../utils/search';
 
-interface NamespaceItem extends vscode.TreeItem {
-    uri: string;
+interface NamespaceItem extends SearchableItem {
     type: 'namespace' | 'collection';
     namespace?: string;
     collectionName?: string;
@@ -17,25 +17,31 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
     private searchQuery: string = '';
     private providers: DatabaseProvider<Document>[] = [];
 
-    /**
-     * Creates a new NamespaceProvider instance
-     * @param _context Extension context (unused but required by VS Code API)
-     */
     constructor(private readonly _context: vscode.ExtensionContext) {
         this.initializeProviders();
     }
 
     private async initializeProviders() {
-        // Initialize with mock providers for development
         const localProvider = new MockDatabaseProvider('file://local');
         const remoteProvider = new MockDatabaseProvider('https://mdx.org.ai');
+        const clickhouseProvider = new MockDatabaseProvider('clickhouse://default');
 
-        this.providers.push(localProvider, remoteProvider);
+        this.providers.push(localProvider, remoteProvider, clickhouseProvider);
         this.refresh();
     }
 
     getTreeItem(element: NamespaceItem): vscode.TreeItem {
-        return element;
+        const item = element;
+
+        if (element.type === 'namespace') {
+            item.iconPath = new vscode.ThemeIcon('symbol-namespace');
+            item.tooltip = `Namespace: ${element.uri}\nClick to expand collections`;
+        } else {
+            item.iconPath = new vscode.ThemeIcon('symbol-field');
+            item.tooltip = `Collection: ${element.collectionName}\nNamespace: ${element.namespace}\nURI: ${element.uri}`;
+        }
+
+        return item;
     }
 
     async getChildren(element?: NamespaceItem): Promise<NamespaceItem[]> {
@@ -56,13 +62,7 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
             items.push(item as NamespaceItem);
         }
 
-        if (this.searchQuery) {
-            return items.filter((item: NamespaceItem) =>
-                item.label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
-            );
-        }
-
-        return items;
+        return filterItems(items, this.searchQuery);
     }
 
     private async getCollections(element: NamespaceItem): Promise<NamespaceItem[]> {
@@ -79,13 +79,7 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
                 return item as NamespaceItem;
             });
 
-            if (this.searchQuery) {
-                return items.filter((item: NamespaceItem) =>
-                    item.label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
-                );
-            }
-
-            return items;
+            return filterItems(items, this.searchQuery);
         } catch (error) {
             console.error('Error fetching collections:', error);
             return [];
