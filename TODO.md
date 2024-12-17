@@ -114,6 +114,41 @@
   - [ ] Automated testing
   - [ ] Release automation
 
+## Current Blockers
+
+### ESLint Configuration Issue
+- [ ] ESLint config using ES modules without proper module type configuration
+  - Error: Cannot use import statement outside a module
+  - Reproduction:
+    1. Run `pnpm lint`
+    2. Error in eslint.config.js: SyntaxError: Cannot use import statement outside a module
+  - Blocking: CI pipeline, code quality checks
+  - Resolution pending: Need to update package.json type field or convert to .mjs
+
+### @mdxdb Package Dependencies
+- [ ] Published @mdxdb packages contain workspace dependencies
+  - Error: Published packages still contain workspace references
+  - Reproduction:
+    1. Update package.json to use published npm packages
+    2. Run `pnpm install`
+    3. Error: ERR_PNPM_WORKSPACE_PKG_NOT_FOUND for @mdxdb/types workspace dependency
+  - Affected packages:
+    - @mdxdb/clickhouse
+    - @mdxdb/fetch
+    - @mdxdb/fs
+  - Blocking: Namespace browser implementation, CI pipeline
+  - Resolution pending: Update published packages to use versioned dependencies instead of workspace references
+
+### TypeScript Compilation Error
+- [ ] MDXEditorProvider registration method mismatch
+  - Error: Type error in extension.ts with MDXEditorProvider instantiation
+  - Reproduction:
+    1. Run `pnpm build`
+    2. Error: MDXEditorProvider needs to use static register method
+    3. Current code incorrectly creates instance and registers separately
+  - Blocking: CI pipeline, extension activation
+  - Resolution: Update extension.ts to use MDXEditorProvider.register() static method (fix already in working tree)
+
 ## Documentation
 
 - [x] README with features and usage
