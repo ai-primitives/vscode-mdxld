@@ -84,11 +84,6 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{md,mdx}\""
   },
   "dependencies": {
-    "@mdxdb/types": "^0.0.1",
-    "@mdxdb/clickhouse": "^0.0.1",
-    "@mdxdb/fetch": "^0.0.1",
-    "@mdxdb/fs": "^0.1.0",
-    "@types/yaml": "^1.9.7",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "json5": "^2.2.3",
     "mdxai": "latest",
