@@ -139,16 +139,26 @@
   - Blocking: Namespace browser implementation, CI pipeline
   - Resolution pending: Update published packages to use versioned dependencies instead of workspace references
 
-### TypeScript Compilation Error
-- [ ] MDXEditorProvider registration method mismatch
-  - Error: Type error in extension.ts with MDXEditorProvider instantiation
-  - Reproduction:
-    1. Run `pnpm build`
-    2. Error: MDXEditorProvider needs to use static register method
-    3. Current code incorrectly creates instance and registers separately
-  - Blocking: CI pipeline, extension activation
-  - Resolution: Update extension.ts to use MDXEditorProvider.register() static method (fix already in working tree)
+### TypeScript Compilation Errors
+- [ ] Schema validation type errors in schemaOrg.ts
+  - Error 1: content.$type is possibly undefined
+    - Location: src/schemas/schemaOrg.ts:84
+    - Impact: Schema validation fails to handle undefined types
+    - Resolution: Add type guard for content.$type
+    - Reproduction:
+      1. Run `pnpm build`
+      2. TypeScript compiler shows undefined property error
+  - Error 2: Spread types may only be created from object types
+    - Location: src/schemas/schemaOrg.ts:97
+    - Impact: Invalid object spread operation
+    - Resolution: Ensure spread operation is performed on valid object type
+    - Reproduction:
+      1. Run `pnpm build`
+      2. TypeScript compiler shows invalid spread type error
+  - Blocking: CI pipeline, schema validation functionality
 
+- [ ] MDXEditorProvider registration method mismatch
+  # PLACEHOLDER: existing MDXEditorProvider error content
 ## Documentation
 
 - [x] README with features and usage
