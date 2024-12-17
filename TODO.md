@@ -125,14 +125,19 @@
   - Blocking: CI pipeline, code quality checks
   - Resolution pending: Need to update package.json type field or convert to .mjs
 
-### Dependency Availability
-- [ ] @mdxdb packages not published to npm
+### @mdxdb Package Dependencies
+- [ ] Published @mdxdb packages contain workspace dependencies
+  - Error: Published packages still contain workspace references
+  - Reproduction:
+    1. Update package.json to use published npm packages
+    2. Run `pnpm install`
+    3. Error: ERR_PNPM_WORKSPACE_PKG_NOT_FOUND for @mdxdb/types workspace dependency
   - Affected packages:
-    - @mdxdb/fs
-    - @mdxdb/fetch
     - @mdxdb/clickhouse
-  - Blocking: Namespace browser implementation
-  - Resolution pending: Package publication to npm registry
+    - @mdxdb/fetch
+    - @mdxdb/fs
+  - Blocking: Namespace browser implementation, CI pipeline
+  - Resolution pending: Update published packages to use versioned dependencies instead of workspace references
 
 ## Documentation
 
