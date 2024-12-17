@@ -6,8 +6,10 @@ import { ASTViewProvider } from './providers/astViewProvider';
 export function activate(extensionContext: vscode.ExtensionContext) {
     // Register providers
     const namespaceProvider = new NamespaceProvider(extensionContext);
-    const mdxEditorProvider = new MDXEditorProvider(extensionContext);
     const astViewProvider = new ASTViewProvider(extensionContext);
+
+    // Register MDX editor using its static register method
+    const mdxEditorDisposable = MDXEditorProvider.register(extensionContext);
 
     // Register commands
     const searchDisposable = vscode.commands.registerCommand('mdxld.showSearch', async () => {
@@ -25,10 +27,10 @@ export function activate(extensionContext: vscode.ExtensionContext) {
     });
 
     extensionContext.subscriptions.push(
+        mdxEditorDisposable,
         searchDisposable,
         refreshDisposable,
         vscode.window.registerTreeDataProvider('mdxldNamespaces', namespaceProvider),
-        vscode.window.registerCustomEditorProvider('mdxld.editor', mdxEditorProvider),
         vscode.window.registerWebviewViewProvider('mdxld.astView', astViewProvider)
     );
 }
