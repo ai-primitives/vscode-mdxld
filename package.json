@@ -84,13 +84,17 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{md,mdx}\""
   },
   "dependencies": {
-    "@mdxdb/fs": "workspace:*",
-    "@mdxdb/fetch": "workspace:*",
     "@mdxdb/clickhouse": "workspace:*",
+    "@mdxdb/fetch": "workspace:*",
+    "@mdxdb/fs": "workspace:*",
     "@mdxdb/types": "workspace:*",
+    "@types/yaml": "^1.9.7",
+    "@vscode/webview-ui-toolkit": "^1.4.0",
     "json5": "^2.2.3",
     "mdxai": "latest",
-    "mdxld": "latest"
+    "mdxld": "latest",
+    "monaco-editor": "^0.52.2",
+    "yaml": "^2.6.1"
   },
   "devDependencies": {
     "@types/json5": "^2.2.0",

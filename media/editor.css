@@ -1,0 +1,18 @@
+.editor-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.monaco-editor {
+    flex: 1;
+    width: 100%;
+}
+
+.validation-error {
+    color: #f44336;
+    padding: 8px;
+    margin: 4px 0;
+    background-color: rgba(244, 67, 54, 0.1);
+    border-left: 3px solid #f44336;
+}
