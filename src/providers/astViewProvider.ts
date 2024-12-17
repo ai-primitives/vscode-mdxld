@@ -1,6 +1,8 @@
 import * as vscode from 'vscode';
 
 export class ASTViewProvider implements vscode.WebviewViewProvider {
+    constructor(private readonly context: vscode.ExtensionContext) {}
+
     resolveWebviewView(
         webviewView: vscode.WebviewView,
         _context: vscode.WebviewViewResolveContext,

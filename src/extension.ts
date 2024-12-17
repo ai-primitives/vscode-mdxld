@@ -5,9 +5,9 @@ import { ASTViewProvider } from './providers/astViewProvider';
 
 export function activate(extensionContext: vscode.ExtensionContext) {
     // Register providers
-    const namespaceProvider = new NamespaceProvider();
-    const mdxEditorProvider = new MDXEditorProvider();
-    const astViewProvider = new ASTViewProvider();
+    const namespaceProvider = new NamespaceProvider(extensionContext);
+    const mdxEditorProvider = new MDXEditorProvider(extensionContext);
+    const astViewProvider = new ASTViewProvider(extensionContext);
 
     // Register commands
     const searchDisposable = vscode.commands.registerCommand('mdxld.showSearch', async () => {
