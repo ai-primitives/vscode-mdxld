@@ -1,8 +1,6 @@
 import * as vscode from 'vscode';
-import type { DatabaseProvider, Document } from '@mdxdb/types';
-import { FSCollection } from '@mdxdb/fs';
-import { FetchProvider } from '@mdxdb/fetch';
-import { createClickHouseClient } from '@mdxdb/clickhouse';
+import type { DatabaseProvider, Document } from '../mocks/types';
+import { MockDatabaseProvider } from '../mocks/mockDb';
 
 interface NamespaceItem extends vscode.TreeItem {
     uri: string;
@@ -24,25 +22,11 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
     }
 
     private async initializeProviders() {
-        const fsProvider = new FSCollection(process.cwd(), 'mdx');
-        const fetchProvider = new FetchProvider<Document>({
-            namespace: 'http://mdx.org.ai',
-            baseUrl: 'https://api.mdx.org.ai'
-        });
+        // Initialize with mock providers for development
+        const localProvider = new MockDatabaseProvider('file://local');
+        const remoteProvider = new MockDatabaseProvider('https://mdx.org.ai');
 
-        try {
-            const clickhouseProvider = await createClickHouseClient({
-                url: 'http://localhost:8123',
-                database: 'mdx',
-                username: 'default',
-                password: ''
-            });
-            this.providers.push(clickhouseProvider);
-        } catch (error) {
-            console.warn('ClickHouse provider not available:', error);
-        }
-
-        this.providers.push(fsProvider as unknown as DatabaseProvider<Document>, fetchProvider);
+        this.providers.push(localProvider, remoteProvider);
         this.refresh();
     }
 
