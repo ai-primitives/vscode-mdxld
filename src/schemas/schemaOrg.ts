@@ -81,6 +81,9 @@ function validateSchemaOrgType(value: unknown, expectedType: string): boolean {
  */
 export async function enrichSchemaOrg(content: MDXLD): Promise<MDXLD> {
     try {
+        if (!content.$type) {
+            return content;
+        }
         const type = content.$type.split('/').pop();
         const response = await fetch(`https://schema.org/${type}.jsonld`);
         if (!response.ok) {
@@ -93,8 +96,7 @@ export async function enrichSchemaOrg(content: MDXLD): Promise<MDXLD> {
             data: {
                 ...content.data,
                 '@context': 'https://schema.org',
-                '@type': type,
-                ...schemaData
+                '@type': type
             }
         };
     } catch (error) {
