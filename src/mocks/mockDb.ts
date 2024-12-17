@@ -7,9 +7,9 @@ class MockCollectionProvider implements CollectionProvider {
 
   /**
    * Get documents from a collection
-   * @param collection Collection name (unused in mock implementation)
+   * @param _collection Collection name (unused in mock implementation)
    */
-  async get(collection: string): Promise<Document[]> {
+  async get(_collection: string): Promise<Document[]> {
     return [
       {
         $type: 'https://schema.org/Article',

@@ -8,11 +8,11 @@ export interface SchemaValidationResult {
 /**
  * Validates MDX content against a schema
  * @param type Schema type URI
- * @param mdxContent MDX content to validate (unused in current implementation)
+ * @param _mdxContent MDX content to validate (unused in current implementation)
  */
 export async function validateAgainstSchema(
     type: string,
-    mdxContent: MDXLD
+    _mdxContent: MDXLD
 ): Promise<SchemaValidationResult> {
     try {
         // Basic type validation

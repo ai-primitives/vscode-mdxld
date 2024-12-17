@@ -29,6 +29,7 @@ export class MDXEditorProvider implements vscode.CustomTextEditorProvider {
     async resolveCustomTextEditor(
         document: vscode.TextDocument,
         webviewPanel: vscode.WebviewPanel,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         _token: vscode.CancellationToken
     ): Promise<void> {
         webviewPanel.webview.options = {
@@ -52,7 +53,9 @@ export class MDXEditorProvider implements vscode.CustomTextEditorProvider {
 
         webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview, monacoScriptUri);
 
-        const _changeDocumentSubscription = vscode.workspace.onDidChangeTextDocument(e => {
+        // Subscribe to document changes to update webview and validate
+        // Subscription is managed by VS Code extension lifecycle
+        void vscode.workspace.onDidChangeTextDocument(e => {
             if (e.document.uri.toString() === document.uri.toString()) {
                 this.updateWebview(webviewPanel.webview, document);
                 this.validateDocument(document);
