@@ -84,11 +84,13 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"*.{md,mdx}\""
   },
   "dependencies": {
+    "@types/node-fetch": "^2.6.12",
     "@vscode/webview-ui-toolkit": "^1.4.0",
     "json5": "^2.2.3",
     "mdxai": "latest",
     "mdxld": "latest",
     "monaco-editor": "^0.52.2",
+    "node-fetch": "^3.3.2",
     "yaml": "^2.6.1"
   },
   "devDependencies": {
