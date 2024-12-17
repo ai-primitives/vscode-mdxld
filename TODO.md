@@ -2,44 +2,122 @@
 
 ## Setup and Configuration
 
-- [x] Initialize package with TypeScript configuration
-- [x] Set up Vitest for testing
-- [x] Configure ESLint and Prettier
-- [x] Set up basic project structure
-- [x] Create placeholder implementation and tests
-- [x] Configure package.json with proper metadata
+- [x] Initialize VS Code extension with TypeScript
+- [x] Configure project structure and build system
+- [x] Set up ESLint and Prettier
+- [ ] Configure VS Code extension manifest
+- [ ] Set up extension activation events
+- [ ] Configure extension settings schema
 
-## Implementation
+## Core Features Implementation
 
-- [x] Basic package structure
-  - [x] TypeScript configuration
-  - [x] Testing setup with Vitest
-  - [x] ESLint and Prettier configuration
-- [x] CLI functionality
-  - [x] Basic command-line interface
-  - [x] Version and help commands
-- [ ] Advanced features
-  - [ ] Additional CLI commands
-  - [ ] Extended test coverage
-  - [ ] Documentation examples
+- [ ] Left Panel (Namespace Browser)
+
+  - [ ] URI-based namespace navigation
+    - [ ] HTTP support via @mdxdb/fetch
+    - [ ] Local filesystem via @mdxdb/fs
+    - [ ] ClickHouse integration via @mdxdb/clickhouse
+  - [ ] Collection metadata display
+  - [ ] Hierarchical namespace visualization
+  - [ ] Refresh and sync capabilities
+
+- [ ] Right Panel (MDX Editor)
+
+  - [ ] YAML frontmatter editing
+    - [ ] Schema validation integration
+    - [ ] $type-based schema enforcement
+    - [ ] Auto-completion for known schemas
+  - [ ] MDX content editing
+    - [ ] Syntax highlighting
+    - [ ] Live preview
+  - [ ] JavaScript/TypeScript support
+    - [ ] Import/export validation
+    - [ ] Component usage detection
+
+- [ ] Additional Views
+  - [ ] AST Visualization
+    - [ ] JSON5 format display
+    - [ ] Tree view navigation
+    - [ ] AST node inspection
+  - [ ] UI Component Preview
+    - [ ] Layout rendering
+    - [ ] Component visualization
+    - [ ] Hot reload support
+
+## Schema Integration
+
+- [ ] Schema.org Integration
+
+  - [ ] Type definitions
+  - [ ] Context validation
+  - [ ] Auto-completion
+
+- [ ] GS1.org Integration
+
+  - [ ] Type definitions
+  - [ ] Context validation
+  - [ ] Auto-completion
+
+- [ ] MDX.org.ai Integration
+  - [ ] Type definitions
+  - [ ] Context validation
+  - [ ] Auto-completion
+
+## Technical Challenges
+
+- [ ] Performance Optimization
+
+  - [ ] Large file handling
+  - [ ] Real-time validation
+  - [ ] Preview rendering
+
+- [ ] Schema Validation
+
+  - [ ] Dynamic schema loading
+  - [ ] Custom schema support
+  - [ ] Schema caching
+
+- [ ] UI Component Integration
+  - [ ] Sandbox environment
+  - [ ] Component isolation
+  - [ ] Style handling
+
+## Verification Requirements
+
+- [ ] Unit Tests
+
+  - [ ] Parser functionality
+  - [ ] Schema validation
+  - [ ] Component rendering
+
+- [ ] Integration Tests
+
+  - [ ] Extension commands
+  - [ ] View interactions
+  - [ ] File system operations
+
+- [ ] End-to-End Tests
+  - [ ] Full workflow scenarios
+  - [ ] Cross-platform testing
+  - [ ] Performance benchmarks
+
+## Deployment
+
+- [ ] VS Code Marketplace
+
+  - [ ] Extension packaging
+  - [ ] Marketplace listing
+  - [ ] Version management
+
+- [ ] CI/CD Pipeline
+  - [ ] GitHub Actions workflow
+  - [ ] Automated testing
+  - [ ] Release automation
 
 ## Documentation
 
-- [x] Create README with badges and usage instructions
-- [ ] Complete CONTRIBUTING.md guide
-- [ ] Add API documentation
-- [ ] Add examples directory with usage examples
-
-## CI/CD
-
-- [ ] Set up GitHub Actions workflow
-- [ ] Configure semantic-release
-- [ ] Add test coverage reporting
-- [ ] Set up automated npm publishing
-
-## Future Enhancements
-
-- [ ] Add more comprehensive examples
-- [ ] Add changelog generation
-- [ ] Add pull request template
-- [ ] Add issue templates
+- [x] README with features and usage
+- [ ] API documentation
+- [ ] Configuration guide
+- [ ] Contributing guidelines
+- [ ] Example collection
