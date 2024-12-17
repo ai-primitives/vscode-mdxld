@@ -1,16 +1,21 @@
 import * as vscode from 'vscode';
 
-// Placeholder for namespace provider implementation
-export class NamespaceProvider implements vscode.TreeDataProvider<any> {
-    private _onDidChangeTreeData: vscode.EventEmitter<any | undefined | null | void> = new vscode.EventEmitter<any | undefined | null | void>();
-    readonly onDidChangeTreeData: vscode.Event<any | undefined | null | void> = this._onDidChangeTreeData.event;
+interface NamespaceItem extends vscode.TreeItem {
+    uri: string;
+    type: 'namespace' | 'collection';
+}
 
-    getTreeItem(element: any): vscode.TreeItem | Thenable<vscode.TreeItem> {
+export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem> {
+    private _onDidChangeTreeData: vscode.EventEmitter<NamespaceItem | undefined | null | void> = new vscode.EventEmitter<NamespaceItem | undefined | null | void>();
+    readonly onDidChangeTreeData: vscode.Event<NamespaceItem | undefined | null | void> = this._onDidChangeTreeData.event;
+
+    getTreeItem(element: NamespaceItem): vscode.TreeItem {
         return element;
     }
 
-    getChildren(element?: any): vscode.ProviderResult<any[]> {
-        // Placeholder implementation - will be expanded in step 004
+    getChildren(element?: NamespaceItem): vscode.ProviderResult<NamespaceItem[]> {
+        // Return empty array for now, will be implemented based on element type
+        console.log('Getting children for:', element?.uri);
         return [];
     }
 

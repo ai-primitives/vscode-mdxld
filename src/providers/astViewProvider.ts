@@ -1,13 +1,14 @@
 import * as vscode from 'vscode';
-import JSON5 from 'json5';
 
 export class ASTViewProvider implements vscode.WebviewViewProvider {
-    // TODO: Implement WebviewViewProvider interface
     resolveWebviewView(
         webviewView: vscode.WebviewView,
-        context: vscode.WebviewViewResolveContext,
+        _context: vscode.WebviewViewResolveContext,
         _token: vscode.CancellationToken
-    ): void | Thenable<void> {
-        // Implementation coming soon
+    ): void {
+        if (!_token.isCancellationRequested) {
+            console.log('Context state:', !!_context);
+            webviewView.webview.html = '<h1>AST View Coming Soon</h1>';
+        }
     }
 }

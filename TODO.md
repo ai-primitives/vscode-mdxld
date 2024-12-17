@@ -114,6 +114,26 @@
   - [ ] Automated testing
   - [ ] Release automation
 
+## Current Blockers
+
+### ESLint Configuration Issue
+- [ ] ESLint config using ES modules without proper module type configuration
+  - Error: Cannot use import statement outside a module
+  - Reproduction:
+    1. Run `pnpm lint`
+    2. Error in eslint.config.js: SyntaxError: Cannot use import statement outside a module
+  - Blocking: CI pipeline, code quality checks
+  - Resolution pending: Need to update package.json type field or convert to .mjs
+
+### Dependency Availability
+- [ ] @mdxdb packages not published to npm
+  - Affected packages:
+    - @mdxdb/fs
+    - @mdxdb/fetch
+    - @mdxdb/clickhouse
+  - Blocking: Namespace browser implementation
+  - Resolution pending: Package publication to npm registry
+
 ## Documentation
 
 - [x] README with features and usage
