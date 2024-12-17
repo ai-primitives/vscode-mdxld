@@ -139,6 +139,16 @@
   - Blocking: Namespace browser implementation, CI pipeline
   - Resolution pending: Update published packages to use versioned dependencies instead of workspace references
 
+### TypeScript Compilation Error
+- [ ] MDXEditorProvider registration method mismatch
+  - Error: Type error in extension.ts with MDXEditorProvider instantiation
+  - Reproduction:
+    1. Run `pnpm build`
+    2. Error: MDXEditorProvider needs to use static register method
+    3. Current code incorrectly creates instance and registers separately
+  - Blocking: CI pipeline, extension activation
+  - Resolution: Update extension.ts to use MDXEditorProvider.register() static method (fix already in working tree)
+
 ## Documentation
 
 - [x] README with features and usage
