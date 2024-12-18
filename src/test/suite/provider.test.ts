@@ -137,4 +137,3 @@ describe('Provider Tests', () => {
 
         await expect(ProviderFactory.createProvider(mockContext)).rejects.toThrow(/Missing required configuration/);
     });
-});
