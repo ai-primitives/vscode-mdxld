@@ -28,7 +28,15 @@ const config = {
       "assert": require.resolve("assert/"),
       "buffer": require.resolve("buffer/"),
       "path": require.resolve("path-browserify"),
-      "process": require.resolve("process/browser")
+      "process": require.resolve("process/browser"),
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "fs": false,
+      "net": false,
+      "tls": false,
+      "child_process": false,
+      "worker_threads": false,
+      "stream/web": false
     },
     alias: {
       'node:stream': 'stream-browserify',
@@ -38,7 +46,11 @@ const config = {
       'node:assert': 'assert',
       'node:buffer': 'buffer',
       'node:path': 'path-browserify',
-      'node:process': 'process/browser'
+      'node:process': 'process/browser',
+      'node:http': 'stream-http',
+      'node:https': 'https-browserify',
+      'node:fs': false,
+      'node:net': false
     },
     mainFields: ['browser', 'module', 'main']
   },
@@ -83,7 +95,8 @@ const config = {
   },
   optimization: {
     minimize: true
-  }
+  },
+  mode: 'production'
 };
 
 module.exports = config;
