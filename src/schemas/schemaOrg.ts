@@ -1,4 +1,4 @@
-import { MDXLD } from 'mdxld';
+import { MDXLD } from '../types/mdxld';
 import fetch from 'node-fetch';
 import { SchemaValidationResult } from './index';
 
@@ -90,7 +90,9 @@ export async function enrichSchemaOrg(content: MDXLD): Promise<MDXLD> {
             return content;
         }
 
-        const schemaData = await response.json();
+        // Complete the fetch without storing unused data
+        await response.json();
+
         return {
             ...content,
             data: {
