@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import type { BaseProvider } from './types/mdxdb';
 import { MockFetchProvider, MockFSProvider, MockClickHouseProvider } from './mockProviders';
-import { ProviderType, validateConfig } from '../config/providerConfig';
+import { ProviderType } from '../config/providerConfig';
 
 export class ProviderFactory {
-  static async createProvider(context: vscode.ExtensionContext): Promise<BaseProvider> {
+  static async createProvider(_context: vscode.ExtensionContext): Promise<BaseProvider> {
     const isWeb = vscode.env.uiKind === vscode.UIKind.Web;
     const config = vscode.workspace.getConfiguration('mdxld');
 

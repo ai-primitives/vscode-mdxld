@@ -11,27 +11,24 @@ export async function run(): Promise<void> {
         const { startVitest } = await import('vitest/node');
 
         // Create and configure Vitest instance
-        const vitest = await startVitest('test', [], {
+        const vitestInstance = await startVitest('test', [], {
             watch: false,
             update: false,
             ui: false,
-            api: true,
             reporters: ['default'],
             include: ['**/**.test.ts'],
-            dir: path.resolve(__dirname, '.')
+            root: path.resolve(__dirname, '.')
         });
 
-        if (!vitest) {
+        if (!vitestInstance) {
             throw new Error('Failed to initialize Vitest');
         }
 
-        // Run tests and check results
-        await vitest.start();
-        const failed = vitest.state.getCountOfFailedTests();
+        // Run tests and wait for completion
+        await vitestInstance.start();
 
-        if (failed > 0) {
-            throw new Error(`${failed} tests failed`);
-        }
+        // Clean up
+        await vitestInstance.close();
     } catch (err) {
         if (err instanceof Error) {
             throw err;

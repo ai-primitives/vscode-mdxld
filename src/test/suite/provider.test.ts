@@ -40,8 +40,8 @@ describe('Provider Tests', () => {
             update: () => Promise.resolve()
         },
         secrets: {
-            get: (_key: string) => Promise.resolve(undefined),
-            store: (_key: string, _value: string) => Promise.resolve()
+            get: () => Promise.resolve(undefined),
+            store: () => Promise.resolve()
         },
         extensionUri: { path: '/test' }
     } as unknown as vscode.ExtensionContext;
