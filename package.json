@@ -7,6 +7,11 @@
   "engines": {
     "vscode": "^1.74.0"
   },
+  "browser": "./dist/web/extension.js",
+  "capabilities": {
+    "virtualWorkspaces": true,
+    "untrustedWorkspaces": { "supported": true }
+  },
   "categories": [
     "Programming Languages",
     "Other"
