@@ -28,7 +28,6 @@ export class ProviderFactory {
 
     // In desktop environment, all providers are supported
     const providerType = getConfigValue<ProviderType>('provider', 'fetch');
-    const openaiApiKey = getConfigValue<string>('openaiApiKey');
 
     switch (providerType) {
       case 'fetch': {
@@ -39,6 +38,7 @@ export class ProviderFactory {
 
       case 'fs': {
         const path = getConfigValue<string>('fs.path', '.');
+        const openaiApiKey = getConfigValue<string>('openaiApiKey');
         return new MockFSProvider({ path, openaiApiKey });
       }
 
@@ -49,6 +49,7 @@ export class ProviderFactory {
         const database = getConfigValue<string>('clickhouse.database');
         const oplogTable = getConfigValue<string>('clickhouse.oplogTable', 'mdxld_oplog');
         const dataTable = getConfigValue<string>('clickhouse.dataTable', 'mdxld_data');
+        const openaiApiKey = getConfigValue<string>('openaiApiKey');
 
         return new MockClickHouseProvider({
           url,
