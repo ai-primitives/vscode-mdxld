@@ -5,17 +5,19 @@ import { ProviderType, validateConfig } from '../config/providerConfig';
 
 export class ProviderFactory {
   static async createProvider(context: vscode.ExtensionContext): Promise<BaseProvider> {
-    const isWeb = context.extensionKind === vscode.ExtensionKind.Workspace;
+    const isWeb = vscode.env.uiKind === vscode.UIKind.Web;
     const config = vscode.workspace.getConfiguration('mdxld');
 
     // Get required configurations with type safety
-    const getConfigValue = <T>(key: string, defaultValue?: T): T => {
-      const value = config.get<T>(key, defaultValue);
-      if (value === undefined) {
+    function getConfigValue<T>(key: string): T;
+    function getConfigValue<T>(key: string, defaultValue: T): T;
+    function getConfigValue<T>(key: string, defaultValue?: T): T {
+      const value = config.get<T>(key, defaultValue!);
+      if (value === undefined || value === null) {
         throw new Error(`Missing required configuration: mdxld.${key}`);
       }
       return value;
-    };
+    }
 
     // In web environment, only fetch provider is supported
     if (isWeb) {
@@ -36,7 +38,7 @@ export class ProviderFactory {
       }
 
       case 'fs': {
-        const path = config.get<string>('fs.path', '.');
+        const path = getConfigValue<string>('fs.path', '.');
         return new MockFSProvider({ path, openaiApiKey });
       }
 
