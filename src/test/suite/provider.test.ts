@@ -71,7 +71,7 @@ describe('Provider Tests', () => {
         };
         ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
-        const provider = await ProviderFactory.createProvider(mockContext);
+        const provider = await ProviderFactory.createProvider();
         expect(provider).toBeInstanceOf(MockFetchProvider);
     });
 
@@ -123,7 +123,7 @@ describe('Provider Tests', () => {
             };
             ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
-            const provider = await ProviderFactory.createProvider(mockContext);
+            const provider = await ProviderFactory.createProvider();
             expect(provider).toBeInstanceOf(testCase.expectedClass);
         }
     });
@@ -135,6 +135,6 @@ describe('Provider Tests', () => {
         };
         ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
-        await expect(ProviderFactory.createProvider(mockContext)).rejects.toThrow(/Missing required configuration/);
+        await expect(ProviderFactory.createProvider()).rejects.toThrow(/Missing required configuration/);
     });
 });

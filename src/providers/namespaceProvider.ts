@@ -25,7 +25,7 @@ export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem>
 
   private async initializeProviders() {
     try {
-      const provider = await ProviderFactory.createProvider(this._context);
+      const provider = await ProviderFactory.createProvider();
       this.providers = [provider];
       this.refresh();
     } catch (error) {
