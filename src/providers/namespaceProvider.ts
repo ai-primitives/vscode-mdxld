@@ -1,101 +1,110 @@
-import * as vscode from 'vscode'
-import type { DatabaseProvider, Document } from '../mocks/types'
-import { MockDatabaseProvider } from '../mocks/mockDb'
+import * as vscode from 'vscode';
+import type { BaseProvider } from './types/mdxdb';
+import { ProviderFactory } from './providerFactory';
 
 interface NamespaceItem extends vscode.TreeItem {
-  uri: string
-  type: 'namespace' | 'collection'
-  namespace?: string
-  collectionName?: string
-  provider?: DatabaseProvider<Document>
+  uri: string;
+  type: 'namespace' | 'collection';
+  namespace?: string;
+  collectionName?: string;
+  provider?: BaseProvider;
 }
 
 export class NamespaceProvider implements vscode.TreeDataProvider<NamespaceItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<NamespaceItem | undefined | null | void> = new vscode.EventEmitter<
     NamespaceItem | undefined | null | void
-  >()
-  readonly onDidChangeTreeData: vscode.Event<NamespaceItem | undefined | null | void> = this._onDidChangeTreeData.event
+  >();
+  readonly onDidChangeTreeData: vscode.Event<NamespaceItem | undefined | null | void> = this._onDidChangeTreeData.event;
 
-  private searchQuery: string = ''
-  private providers: DatabaseProvider<Document>[] = []
+  private searchQuery: string = '';
+  private providers: BaseProvider[] = [];
 
-  /**
-   * Creates a new NamespaceProvider instance
-   * @param _context Extension context (unused but required by VS Code API)
-   */
   constructor(private readonly _context: vscode.ExtensionContext) {
-    this.initializeProviders()
+    this.initializeProviders();
   }
 
   private async initializeProviders() {
-    // Initialize with mock providers for development
-    const localProvider = new MockDatabaseProvider('file://local')
-    const remoteProvider = new MockDatabaseProvider('https://mdx.org.ai')
-
-    this.providers.push(localProvider, remoteProvider)
-    this.refresh()
+    try {
+      const provider = await ProviderFactory.createProvider(this._context);
+      this.providers = [provider];
+      this.refresh();
+    } catch (error) {
+      vscode.window.showErrorMessage(`Failed to initialize provider: ${error}`);
+    }
   }
 
   getTreeItem(element: NamespaceItem): vscode.TreeItem {
-    return element
+    return element;
   }
 
   async getChildren(element?: NamespaceItem): Promise<NamespaceItem[]> {
     if (!element) {
-      return this.getNamespaces()
+      return this.getNamespaces();
     }
-    return this.getCollections(element)
+    return this.getCollections(element);
   }
 
   private async getNamespaces(): Promise<NamespaceItem[]> {
-    const items: NamespaceItem[] = []
+    const items: NamespaceItem[] = [];
 
     for (const provider of this.providers) {
-      const item = new vscode.TreeItem(provider.namespace, vscode.TreeItemCollapsibleState.Collapsed)
-      ;(item as NamespaceItem).uri = provider.namespace
-      ;(item as NamespaceItem).type = 'namespace'
-      ;(item as NamespaceItem).provider = provider
-      items.push(item as NamespaceItem)
+      const namespaces = await provider.list();
+      for (const namespace of namespaces) {
+        const item = new vscode.TreeItem(namespace, vscode.TreeItemCollapsibleState.Collapsed);
+        Object.assign(item, {
+          uri: namespace,
+          type: 'namespace',
+          provider
+        } as Partial<NamespaceItem>);
+        items.push(item as NamespaceItem);
+      }
     }
 
     if (this.searchQuery) {
-      return items.filter((item: NamespaceItem) => item.label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase()))
+      return items.filter((item) =>
+        (item as vscode.TreeItem).label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     }
 
-    return items
+    return items;
   }
 
   private async getCollections(element: NamespaceItem): Promise<NamespaceItem[]> {
-    if (!element.provider) return []
+    if (!element.provider) return [];
 
     try {
-      const collections = await element.provider.list()
+      const collections = await element.provider.list();
       const items = collections.map((name: string) => {
-        const item = new vscode.TreeItem(name, vscode.TreeItemCollapsibleState.None)
-        ;(item as NamespaceItem).uri = `${element.uri}/${name}`
-        ;(item as NamespaceItem).type = 'collection'
-        ;(item as NamespaceItem).namespace = element.uri
-        ;(item as NamespaceItem).collectionName = name
-        return item as NamespaceItem
-      })
+        const item = new vscode.TreeItem(name, vscode.TreeItemCollapsibleState.None);
+        Object.assign(item, {
+          uri: `${element.uri}/${name}`,
+          type: 'collection',
+          namespace: element.uri,
+          collectionName: name
+        } as Partial<NamespaceItem>);
+        return item as NamespaceItem;
+      });
 
       if (this.searchQuery) {
-        return items.filter((item: NamespaceItem) => item.label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase()))
+        return items.filter((item) =>
+          (item as vscode.TreeItem).label?.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
       }
 
-      return items
+      return items;
     } catch (error) {
-      console.error('Error fetching collections:', error)
-      return []
+      console.error('Error fetching collections:', error);
+      vscode.window.showErrorMessage(`Failed to fetch collections: ${error}`);
+      return [];
     }
   }
 
   setSearchQuery(query: string): void {
-    this.searchQuery = query
-    this.refresh()
+    this.searchQuery = query;
+    this.refresh();
   }
 
   refresh(): void {
-    this._onDidChangeTreeData.fire(undefined)
+    this._onDidChangeTreeData.fire(undefined);
   }
 }

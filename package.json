@@ -135,7 +135,9 @@
   },
   "scripts": {
     "vscode:prepublish": "pnpm run build",
-    "build": "tsc -p ./",
+    "build": "pnpm run build:node && pnpm run build:web",
+    "build:node": "tsc -p ./",
+    "build:web": "webpack --config webpack.web.config.js",
     "watch": "tsc -watch -p ./",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -161,8 +163,11 @@
     "@vscode/test-electron": "^2.3.9",
     "eslint": "^9.17.0",
     "prettier": "^3.4.2",
+    "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4"
   },
   "repository": {
     "type": "git",
