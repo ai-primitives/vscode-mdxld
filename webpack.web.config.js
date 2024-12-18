@@ -27,10 +27,27 @@ const config = {
       "url": require.resolve("url/"),
       "assert": require.resolve("assert/"),
       "buffer": require.resolve("buffer/"),
-      "path": require.resolve("path-browserify")
-    }
+      "path": require.resolve("path-browserify"),
+      "process": require.resolve("process/browser")
+    },
+    alias: {
+      'node:stream': 'stream-browserify',
+      'node:util': 'util',
+      'node:zlib': 'browserify-zlib',
+      'node:url': 'url',
+      'node:assert': 'assert',
+      'node:buffer': 'buffer',
+      'node:path': 'path-browserify',
+      'node:process': 'process/browser'
+    },
+    mainFields: ['browser', 'module', 'main']
   },
   module: {
+    parser: {
+      javascript: {
+        commonjsMagicComments: true
+      }
+    },
     rules: [
       {
         test: /\.ts$/,
@@ -40,6 +57,12 @@ const config = {
             loader: 'ts-loader'
           }
         ]
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
       }
     ]
   },
@@ -47,10 +70,19 @@ const config = {
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
       process: 'process/browser'
+    }),
+    new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+      resource.request = resource.request.replace(/^node:/, '');
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env)
     })
   ],
   performance: {
     hints: false
+  },
+  optimization: {
+    minimize: true
   }
 };
 
