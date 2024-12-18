@@ -56,10 +56,13 @@ describe('Provider Tests', () => {
 
         const config = {
             get: (key: string) => {
-                switch (key) {
-                    case 'fetch.endpoint':
+                const fullKey = key.startsWith('mdxld.') ? key : `mdxld.${key}`;
+                switch (fullKey) {
+                    case 'mdxld.provider':
+                        return 'fetch';
+                    case 'mdxld.fetch.endpoint':
                         return 'https://api.test.com';
-                    case 'fetch.token':
+                    case 'mdxld.fetch.token':
                         return 'test-token';
                     default:
                         return undefined;
@@ -80,32 +83,32 @@ describe('Provider Tests', () => {
             {
                 type: 'fetch',
                 config: {
-                    'provider': 'fetch',
-                    'fetch.endpoint': 'https://api.test.com',
-                    'fetch.token': 'test-token'
+                    'mdxld.provider': 'fetch',
+                    'mdxld.fetch.endpoint': 'https://api.test.com',
+                    'mdxld.fetch.token': 'test-token'
                 },
                 expectedClass: MockFetchProvider
             },
             {
                 type: 'fs',
                 config: {
-                    'provider': 'fs',
-                    'fs.path': '/test/path',
-                    'openaiApiKey': 'test-key'
+                    'mdxld.provider': 'fs',
+                    'mdxld.fs.path': '/test/path',
+                    'mdxld.openaiApiKey': 'test-key'
                 },
                 expectedClass: MockFSProvider
             },
             {
                 type: 'clickhouse',
                 config: {
-                    'provider': 'clickhouse',
-                    'clickhouse.url': 'http://localhost:8123',
-                    'clickhouse.username': 'default',
-                    'clickhouse.password': 'password',
-                    'clickhouse.database': 'test',
-                    'clickhouse.oplogTable': 'oplog',
-                    'clickhouse.dataTable': 'data',
-                    'openaiApiKey': 'test-key'
+                    'mdxld.provider': 'clickhouse',
+                    'mdxld.clickhouse.url': 'http://localhost:8123',
+                    'mdxld.clickhouse.username': 'default',
+                    'mdxld.clickhouse.password': 'password',
+                    'mdxld.clickhouse.database': 'test',
+                    'mdxld.clickhouse.oplogTable': 'oplog',
+                    'mdxld.clickhouse.dataTable': 'data',
+                    'mdxld.openaiApiKey': 'test-key'
                 },
                 expectedClass: MockClickHouseProvider
             }
@@ -113,7 +116,10 @@ describe('Provider Tests', () => {
 
         for (const testCase of testCases) {
             const config = {
-                get: (key: string) => testCase.config[key as keyof typeof testCase.config] ?? undefined
+                get: (key: string) => {
+                    const fullKey = key.startsWith('mdxld.') ? key : `mdxld.${key}`;
+                    return testCase.config[fullKey as keyof typeof testCase.config] ?? undefined;
+                }
             };
             (vscodeModule.workspace.getConfiguration as any).mockReturnValue(config);
 
@@ -131,4 +137,3 @@ describe('Provider Tests', () => {
 
         await expect(ProviderFactory.createProvider(mockContext)).rejects.toThrow(/Missing required configuration/);
     });
-});
