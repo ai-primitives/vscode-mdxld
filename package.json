@@ -24,6 +24,60 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "MDX-LD",
+      "properties": {
+        "mdxld.provider": {
+          "type": "string",
+          "enum": ["fetch", "fs", "clickhouse"],
+          "description": "Provider type to use",
+          "default": "fetch"
+        },
+        "mdxld.fetch.endpoint": {
+          "type": "string",
+          "description": "Endpoint URL for fetch provider"
+        },
+        "mdxld.fetch.token": {
+          "type": "string",
+          "description": "Authentication token for fetch provider"
+        },
+        "mdxld.fs.path": {
+          "type": "string",
+          "default": ".",
+          "description": "Local path for fs provider"
+        },
+        "mdxld.openaiApiKey": {
+          "type": "string",
+          "description": "OpenAI API key for providers"
+        },
+        "mdxld.clickhouse.url": {
+          "type": "string",
+          "description": "ClickHouse server URL"
+        },
+        "mdxld.clickhouse.username": {
+          "type": "string",
+          "description": "ClickHouse username"
+        },
+        "mdxld.clickhouse.password": {
+          "type": "string",
+          "description": "ClickHouse password"
+        },
+        "mdxld.clickhouse.database": {
+          "type": "string",
+          "description": "ClickHouse database name"
+        },
+        "mdxld.clickhouse.oplogTable": {
+          "type": "string",
+          "description": "ClickHouse oplog table name",
+          "default": "mdxld_oplog"
+        },
+        "mdxld.clickhouse.dataTable": {
+          "type": "string",
+          "description": "ClickHouse data table name",
+          "default": "mdxld_data"
+        }
+      }
+    },
     "languages": [
       {
         "id": "mdx",
