@@ -117,6 +117,7 @@
 ## Current Blockers
 
 ### ESLint Configuration Issue
+
 - [ ] ESLint config using ES modules without proper module type configuration
   - Error: Cannot use import statement outside a module
   - Reproduction:
@@ -126,6 +127,7 @@
   - Resolution pending: Need to update package.json type field or convert to .mjs
 
 ### @mdxdb Package Dependencies
+
 - [ ] Published @mdxdb packages contain workspace dependencies
   - Error: Published packages still contain workspace references
   - Reproduction:
@@ -140,7 +142,9 @@
   - Resolution pending: Update published packages to use versioned dependencies instead of workspace references
 
 ### TypeScript Compilation Errors
+
 - [ ] Schema validation type errors in schemaOrg.ts
+
   - Error 1: content.$type is possibly undefined
     - Location: src/schemas/schemaOrg.ts:84
     - Impact: Schema validation fails to handle undefined types
@@ -159,6 +163,7 @@
 
 - [ ] MDXEditorProvider registration method mismatch
   # PLACEHOLDER: existing MDXEditorProvider error content
+
 ## Documentation
 
 - [x] README with features and usage
