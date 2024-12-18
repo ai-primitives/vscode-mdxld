@@ -1,4 +1,4 @@
-import type { MDXLD } from 'mdxld'
+import type { MDXLD } from '../types/mdxld'
 
 export interface Document extends MDXLD {
   embeddings?: number[]
@@ -43,15 +43,17 @@ export interface SearchResult<T extends Document = Document> {
 }
 
 export type FilterQuery<T> = {
-  [K in keyof T]?: T[K] | {
-    $eq?: T[K]
-    $gt?: T[K]
-    $gte?: T[K]
-    $lt?: T[K]
-    $lte?: T[K]
-    $in?: T[K][]
-    $nin?: T[K][]
-  }
+  [K in keyof T]?:
+    | T[K]
+    | {
+        $eq?: T[K]
+        $gt?: T[K]
+        $gte?: T[K]
+        $lt?: T[K]
+        $lte?: T[K]
+        $in?: T[K][]
+        $nin?: T[K][]
+      }
 }
 
 export interface VectorSearchOptions {
