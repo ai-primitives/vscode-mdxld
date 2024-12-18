@@ -25,6 +25,8 @@ export interface ProviderConfig {
 
 export function validateConfig(config: ProviderConfig): void {
   const required = ['url', 'username', 'password', 'database', 'oplogTable', 'dataTable'] as const;
+  let missing: typeof required[number][] = [];
+
   switch (config.type) {
     case 'fetch':
       if (!config.endpoint || !config.token) {
@@ -40,7 +42,7 @@ export function validateConfig(config: ProviderConfig): void {
       if (!config.clickhouse || !config.openaiApiKey) {
         throw new Error('Clickhouse provider requires clickhouse configuration and openaiApiKey');
       }
-      const missing = required.filter(field => !(field in config.clickhouse!));
+      missing = required.filter(field => !(field in config.clickhouse!));
       if (missing.length > 0) {
         throw new Error(`Clickhouse provider missing required fields: ${missing.join(', ')}`);
       }

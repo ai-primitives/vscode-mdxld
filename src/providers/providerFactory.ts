@@ -4,7 +4,7 @@ import { MockFetchProvider, MockFSProvider, MockClickHouseProvider } from './moc
 import { ProviderType } from '../config/providerConfig';
 
 export class ProviderFactory {
-  static async createProvider(_context: vscode.ExtensionContext): Promise<BaseProvider> {
+  static async createProvider(): Promise<BaseProvider> {
     const isWeb = vscode.env.uiKind === vscode.UIKind.Web;
     const config = vscode.workspace.getConfiguration('mdxld');
 

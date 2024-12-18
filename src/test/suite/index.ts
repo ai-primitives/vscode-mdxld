@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { describe, test, expect } from 'vitest';
 
 // Re-export test functions for use in test files
@@ -17,7 +16,7 @@ export async function run(): Promise<void> {
             ui: false,
             reporters: ['default'],
             include: ['**/**.test.ts'],
-            root: path.resolve(__dirname, '.')
+            root: process.cwd()
         });
 
         if (!vitestInstance) {
