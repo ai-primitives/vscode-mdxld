@@ -10,7 +10,9 @@
   "browser": "./dist/web/extension.js",
   "capabilities": {
     "virtualWorkspaces": true,
-    "untrustedWorkspaces": { "supported": true }
+    "untrustedWorkspaces": {
+      "supported": true
+    }
   },
   "categories": [
     "Programming Languages",
@@ -29,7 +31,11 @@
       "properties": {
         "mdxld.provider": {
           "type": "string",
-          "enum": ["fetch", "fs", "clickhouse"],
+          "enum": [
+            "fetch",
+            "fs",
+            "clickhouse"
+          ],
           "description": "Provider type to use",
           "default": "fetch"
         },
@@ -165,10 +171,13 @@
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "eslint": "^9.17.0",
+    "https-browserify": "^1.0.0",
+    "node-libs-browser": "^2.2.1",
     "path-browserify": "^1.0.1",
     "prettier": "^3.4.2",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
     "url": "^0.11.3",
