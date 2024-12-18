@@ -8,7 +8,7 @@ describe('Schema.org Validation', () => {
       $type: 'https://schema.org/Article',
       $context: 'https://schema.org',
       content: '',
-      data: { headline: 'Test Article' }
+      data: { headline: 'Test Article' },
     }
     const result = await validateSchemaOrg(content.$type || '', content)
     expect(result.isValid).toBe(true)
@@ -18,7 +18,7 @@ describe('Schema.org Validation', () => {
     const content: MDXLD = {
       $context: 'https://schema.org',
       content: '',
-      data: { headline: 'Test Article' }
+      data: { headline: 'Test Article' },
     }
     const result = await validateSchemaOrg('', content)
     expect(result.isValid).toBe(false)
@@ -30,7 +30,7 @@ describe('Schema.org Validation', () => {
       $type: 'https://schema.org/InvalidType',
       $context: 'https://schema.org',
       content: '',
-      data: { headline: 'Test Article' }
+      data: { headline: 'Test Article' },
     }
     const result = await validateSchemaOrg(content.$type || '', content)
     expect(result.isValid).toBe(false)
@@ -44,8 +44,8 @@ describe('Schema.org Validation', () => {
       content: '',
       data: {
         headline: 123, // Invalid type - should be string
-        articleBody: true // Invalid type - should be string
-      }
+        articleBody: true, // Invalid type - should be string
+      },
     }
     const result = await validateSchemaOrg(content.$type || '', content)
     expect(result.isValid).toBe(false)

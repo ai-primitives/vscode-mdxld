@@ -6,11 +6,14 @@ interface SchemaOrgDefinition {
   '@context': string
   '@type': string
   '@id'?: string
-  properties: Record<string, {
-    '@type': string
-    '@id'?: string
-    'schema:rangeIncludes'?: Array<{ '@id': string }>
-  }>
+  properties: Record<
+    string,
+    {
+      '@type': string
+      '@id'?: string
+      'schema:rangeIncludes'?: Array<{ '@id': string }>
+    }
+  >
   'schema:required'?: Array<{ '@value': string }>
 }
 
@@ -52,7 +55,7 @@ export async function validateSchemaOrg(type: string, content: MDXLD): Promise<S
     const schema: SchemaOrgDefinition = {
       '@context': 'https://schema.org',
       '@type': typeName,
-      properties: {}
+      properties: {},
     }
 
     // First pass: Find the property table
@@ -74,7 +77,7 @@ export async function validateSchemaOrg(type: string, content: MDXLD): Promise<S
             const cleanType = typeMatch[0]
             schema.properties[propertyName] = {
               '@type': 'Property',
-              'schema:rangeIncludes': [{ '@id': cleanType }]
+              'schema:rangeIncludes': [{ '@id': cleanType }],
             }
           }
         }
@@ -87,7 +90,7 @@ export async function validateSchemaOrg(type: string, content: MDXLD): Promise<S
       for (const prop of textProperties) {
         schema.properties[prop] = {
           '@type': 'Property',
-          'schema:rangeIncludes': [{ '@id': 'Text' }]
+          'schema:rangeIncludes': [{ '@id': 'Text' }],
         }
       }
     }
@@ -100,7 +103,7 @@ export async function validateSchemaOrg(type: string, content: MDXLD): Promise<S
       const propertySchema = schema.properties[key]
       console.log(`Validating property ${key}:`, { value, schema: propertySchema }) // Debug log
       if (propertySchema) {
-        const rangeTypes = propertySchema['schema:rangeIncludes']?.map(type => type['@id']) || []
+        const rangeTypes = propertySchema['schema:rangeIncludes']?.map((type) => type['@id']) || []
         if (rangeTypes.length > 0 && !validateSchemaOrgType(value, rangeTypes)) {
           errors.push(`Invalid type for ${key}: expected one of [${rangeTypes.join(', ')}]`)
         }
@@ -121,7 +124,7 @@ export async function validateSchemaOrg(type: string, content: MDXLD): Promise<S
 
 function validateSchemaOrgType(value: unknown, expectedTypes: string[]): boolean {
   // Handle array of possible types
-  return expectedTypes.some(type => {
+  return expectedTypes.some((type) => {
     const baseType = type.split('/').pop()?.split('#').pop() || type
     switch (baseType) {
       case 'Text':
