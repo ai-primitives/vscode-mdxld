@@ -2,6 +2,7 @@
 'use strict';
 
 const path = require('path');
+const webpack = require('webpack');
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -18,7 +19,16 @@ const config = {
     vscode: 'commonjs vscode' // Avoid bundling vscode module
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    fallback: {
+      "stream": require.resolve("stream-browserify"),
+      "util": require.resolve("util/"),
+      "zlib": require.resolve("browserify-zlib"),
+      "url": require.resolve("url/"),
+      "assert": require.resolve("assert/"),
+      "buffer": require.resolve("buffer/"),
+      "path": require.resolve("path-browserify")
+    }
   },
   module: {
     rules: [
@@ -33,6 +43,12 @@ const config = {
       }
     ]
   },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser'
+    })
+  ],
   performance: {
     hints: false
   }
