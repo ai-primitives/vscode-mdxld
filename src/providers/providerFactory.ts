@@ -9,8 +9,6 @@ export class ProviderFactory {
     const config = vscode.workspace.getConfiguration('mdxld');
 
     // Get required configurations with type safety
-    function getConfigValue<T>(key: string): T;
-    function getConfigValue<T>(key: string, defaultValue: T): T;
     function getConfigValue<T>(key: string, defaultValue?: T): T {
       const value = config.get<T>(key, defaultValue!);
       if (value === undefined || value === null) {

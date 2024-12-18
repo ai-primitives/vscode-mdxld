@@ -40,8 +40,8 @@ describe('Provider Tests', () => {
             update: () => Promise.resolve()
         },
         secrets: {
-            get: (key: string) => Promise.resolve(undefined),
-            store: (key: string, value: string) => Promise.resolve()
+            get: (_key: string) => Promise.resolve(undefined),
+            store: (_key: string, _value: string) => Promise.resolve()
         },
         extensionUri: { path: '/test' }
     } as unknown as vscode.ExtensionContext;
@@ -52,7 +52,7 @@ describe('Provider Tests', () => {
 
     it('Web Environment Only Allows Fetch Provider', async () => {
         const vscodeModule = await import('vscode');
-        (vscodeModule.env as any).uiKind = vscodeModule.UIKind.Web;
+        (vscodeModule.env as { uiKind: number }).uiKind = vscodeModule.UIKind.Web;
 
         const config = {
             get: (key: string) => {
@@ -69,7 +69,7 @@ describe('Provider Tests', () => {
                 }
             }
         };
-        (vscodeModule.workspace.getConfiguration as any).mockReturnValue(config);
+        ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
         const provider = await ProviderFactory.createProvider(mockContext);
         expect(provider).toBeInstanceOf(MockFetchProvider);
@@ -77,7 +77,7 @@ describe('Provider Tests', () => {
 
     it('Desktop Environment Supports All Providers', async () => {
         const vscodeModule = await import('vscode');
-        (vscodeModule.env as any).uiKind = vscodeModule.UIKind.Desktop;
+        (vscodeModule.env as { uiKind: number }).uiKind = vscodeModule.UIKind.Desktop;
 
         const testCases = [
             {
@@ -121,7 +121,7 @@ describe('Provider Tests', () => {
                     return testCase.config[fullKey as keyof typeof testCase.config] ?? undefined;
                 }
             };
-            (vscodeModule.workspace.getConfiguration as any).mockReturnValue(config);
+            ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
             const provider = await ProviderFactory.createProvider(mockContext);
             expect(provider).toBeInstanceOf(testCase.expectedClass);
@@ -133,7 +133,7 @@ describe('Provider Tests', () => {
         const config = {
             get: () => undefined
         };
-        (vscodeModule.workspace.getConfiguration as any).mockReturnValue(config);
+        ((vscodeModule.workspace.getConfiguration as unknown) as { mockReturnValue: (config: unknown) => void }).mockReturnValue(config);
 
         await expect(ProviderFactory.createProvider(mockContext)).rejects.toThrow(/Missing required configuration/);
     });

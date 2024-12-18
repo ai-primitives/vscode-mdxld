@@ -1,5 +1,3 @@
-import type { FetchProviderConfig, FSProviderConfig, ClickHouseProviderConfig } from '../providers/types/mdxdb';
-
 export type ProviderType = 'fetch' | 'fs' | 'clickhouse';
 
 export interface ProviderConfig {
@@ -41,8 +39,8 @@ export function validateConfig(config: ProviderConfig): void {
       if (!config.clickhouse || !config.openaiApiKey) {
         throw new Error('Clickhouse provider requires clickhouse configuration and openaiApiKey');
       }
-      const required = ['url', 'username', 'password', 'database', 'oplogTable', 'dataTable'];
-      const missing = required.filter(key => !(key in config.clickhouse!));
+      const required = ['url', 'username', 'password', 'database', 'oplogTable', 'dataTable'] as const;
+      const missing = required.filter(field => !(field in config.clickhouse!));
       if (missing.length > 0) {
         throw new Error(`Clickhouse provider missing required fields: ${missing.join(', ')}`);
       }
