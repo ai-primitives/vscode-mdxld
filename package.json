@@ -1,7 +1,7 @@
 {
   "name": "vscode-mdxld",
   "displayName": "MDX-LD",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "VS Code extension for MDX-LD with namespace browsing, schema validation, and AI-enriched editing",
   "publisher": "ai-primitives",
   "engines": {
@@ -162,6 +162,7 @@
     "yaml": "^2.6.1"
   },
   "devDependencies": {
+    "@semantic-release/exec": "^6.0.3",
     "@types/glob": "^8.1.0",
     "@types/json5": "^2.2.0",
     "@types/mocha": "^10.0.10",
