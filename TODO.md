@@ -103,16 +103,16 @@
 
 ## Deployment
 
-- [ ] VS Code Marketplace
+- [x] VS Code Marketplace
 
-  - [ ] Extension packaging
-  - [ ] Marketplace listing
-  - [ ] Version management
+  - [x] Extension packaging
+  - [x] Marketplace listing
+  - [x] Version management
 
-- [ ] CI/CD Pipeline
-  - [ ] GitHub Actions workflow
-  - [ ] Automated testing
-  - [ ] Release automation
+- [x] CI/CD Pipeline
+  - [x] GitHub Actions workflow
+  - [x] Automated testing
+  - [x] Release automation
 
 ## Current Blockers
 
